@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react'
-import React, {useActionState} from 'react'
+import React, { useActionState } from 'react'
 import {
     Dialog,
     DialogContent,
@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { generateForm } from '../actions/generateForm';
 import { useFormState, useFormStatus } from 'react-dom';
 
-import {useSession, signIn, signOut} from "next-auth/react"
+import { useSession, signIn, signOut } from "next-auth/react"
 
 type Props = {}
 
@@ -42,13 +42,17 @@ function FormGenerator(props: Props) {
     useEffect(() => {
         if (state.message === "success") {
             setOpen(false);
-        } 
+        }
         console.log(state);
-        
+
     }, [state.message]);
 
     const onFormCreate = () => {
-        setOpen(true);
+        if (session.data?.user) {
+            setOpen(true);
+        } else {
+            signIn();
+        }
     }
 
     return (
