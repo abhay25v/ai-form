@@ -5,10 +5,22 @@ import {
     text,
     primaryKey,
     integer,
+    serial,
+    pgEnum,
 } from "drizzle-orm/pg-core"
 import postgres from "postgres"
 import { drizzle } from "drizzle-orm/postgres-js"
 import type { AdapterAccountType } from "next-auth/adapters"
+import { desc } from "drizzle-orm"
+import { relations } from "drizzle-orm"
+
+export const formElements = pgEnum("field_type", [
+    "RadioGroup",
+    "Select",
+    "Input",
+    "Textarea",
+    "Switch",
+])
 
 const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle"
 const pool = postgres(connectionString, { max: 1 })
@@ -96,4 +108,50 @@ export const authenticators = pgTable(
             }),
         },
     ]
-)
+);
+// ...existing code...
+
+export const forms = pgTable("form", {
+    id: serial("id").primaryKey(),
+    name: text("name").notNull(),
+    description: text("description"),
+    userId: text("userId"), // changed from "user_Id" to "userId"
+    published: boolean("published"),
+});
+
+export const formsRelations = relations(forms, ({ many, one }) => ({
+    questions: many(questions),
+    user: one(users, {
+        fields: [forms.userId],
+        references: [users.id],
+    }),
+}));
+
+export const questions = pgTable("question", {
+    id: serial("id").primaryKey(),
+    text: text("text"),
+    fieldType: formElements("field_type"),
+    formId: integer("formId"), // changed from "form_id" to "formId"
+});
+
+export const questionsRelations = relations(questions, ({ one, many }) => ({
+    form: one(forms, {
+        fields: [questions.formId],
+        references: [forms.id],
+    }),
+    fieldOptions: many(fieldOptions),
+}));
+
+export const fieldOptions = pgTable("field_option", {
+    id: serial("id").primaryKey(),
+    text: text("text"),
+    questionId: integer("questionId"), // changed from "question_id" to "questionId"
+    value: text("value"),
+});
+
+export const fieldOptionsRelations = relations(fieldOptions, ({ one }) => ({
+    question: one(questions, {
+        fields: [fieldOptions.questionId],
+        references: [questions.id],
+    }),
+}));
