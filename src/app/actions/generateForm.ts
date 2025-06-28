@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { saveForm } from "./mutateForm";
 import { questions } from "@/db/schema";
+import { db } from "@/db";
 
 export async function generateForm(
     prevState: {
@@ -26,13 +27,14 @@ export async function generateForm(
             message: parsedData.error.errors[0].message
         };
     }
-    if (!process.env.OPENAI_API_KEY) {
+    if (!process.env.OPENROUTER_API_KEY) {
         return {
-            message: "OpenAI API key is not set"
+            message: "OpenRouter API key is not set"
         };
     }
     const data = parsedData.data;
     const promptExplaination = "Based on the description, generate a survey object with 3 fields: name(string) for the form, description(string) of the form and a questions array where every element has 2 fields: text and the fieldType and fieldType can be of these options RadioGroup, Select, Input, Textarea, Switch; and return it in json format. For RadioGroup, and Select types also return fieldOptions array with text and value fields. For example, for RadioGroup, and Select types, the field options array can be [{text: 'Yes', value: 'yes'}, {text: 'No', value: 'no'}] and for Input, Textarea, and Switch types, the field options array can be empty. For example, for Input, Textarea, and Switch types, the field options array can be []"
+    
     try {
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             headers: {
@@ -41,7 +43,7 @@ export async function generateForm(
             },
             method: "POST",
             body: JSON.stringify({
-                model: "deepseek/deepseek-r1-0528:free", // or another available model
+                model: "deepseek/deepseek-r1-0528:free",
                 messages: [
                     {
                         role: "system",
@@ -62,27 +64,28 @@ export async function generateForm(
 
         const cleaned = extractFirstJson(content);
 
-        let questions;
+        let parsedForm;
         try {
             if (!cleaned) throw new Error("No JSON object found in AI response.");
-            questions = JSON.parse(cleaned);
+            parsedForm = JSON.parse(cleaned);
         } catch (e) {
-            console.error("Failed to parse questions JSON:", cleaned, e);
+            console.error("Failed to parse form JSON:", cleaned, e);
             return {
                 message: "AI response was not valid JSON. Please try again."
             };
         }
 
         const dbFormId = await saveForm({
-            name: "Testing save form",
-            description: "Testing save description",
-            questions,
+            name: parsedForm.name || "Generated Form",
+            description: parsedForm.description || "AI Generated Form",
+            questions: parsedForm.questions || [],
         });
         console.log("DB Form ID:", dbFormId);
 
         revalidatePath("/");
         return {
-            message: "success", data: json
+            message: "success", 
+            data: { formId : dbFormId }
         }
     }
     catch (error) {

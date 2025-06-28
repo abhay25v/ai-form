@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from '@/components/ui/textarea';
 import { generateForm } from '../actions/generateForm';
 import { useFormState, useFormStatus } from 'react-dom';
+import { redirect } from 'next/navigation';
 
 import { useSession, signIn, signOut } from "next-auth/react"
 
@@ -42,6 +43,7 @@ function FormGenerator(props: Props) {
     useEffect(() => {
         if (state.message === "success") {
             setOpen(false);
+            redirect(`/forms/edit/${state.data.formId}`); // Redirect to the form edit page with the new form ID
         }
         console.log(state);
 
