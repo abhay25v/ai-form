@@ -1,57 +1,65 @@
-"use server"
+"use server";
 
 import { db } from "@/db";
-import { forms, fieldOptions, questions as dbQuestions } from "@/db/schema";
+import { forms, questions as dbQuestions, fieldOptions } from "@/db/schema";
 import { auth } from "@/auth";
-import { InferInsertModel } from "drizzle-orm";
+import { InferInsertModel, eq } from "drizzle-orm";
 
 type Form = InferInsertModel<typeof forms>;
 type Question = InferInsertModel<typeof dbQuestions>;
 type FieldOption = InferInsertModel<typeof fieldOptions>;
 
 interface SaveFormData extends Form {
-    questions: Array<Question & {
-        fieldOptions?: Array<FieldOption>;
-    }>
+  questions: Array<Question & { fieldOptions?: FieldOption[] }>;
 }
 
 export async function saveForm(data: SaveFormData) {
-    const { name, description, questions: formQuestions } = data;
-    const session = await auth();
-    const userId = session?.user?.id;
+  const { name, description, questions } = data;
+  const session = await auth();
+  const userId = session?.user?.id;
 
-    const newForm = await db.insert(forms).values({
-        name,
-        description,
-        userId,
-        published: false, // default to false
-    }).returning({ insertId: forms.id });
+  const newForm = await db
+    .insert(forms)
+    .values({
+      name,
+      description,
+      userId,
+      published: false,
+    })
+    .returning({ insertedId: forms.id });
+  const formId = newForm[0].insertedId;
 
-    const formId = newForm[0].insertId;
+  // TODO: add questions and options
+  const newQuestions = data.questions.map((question) => {
+    return {
+      text: question.text,
+      fieldType: question.fieldType,
+      fieldOptions: question.fieldOptions,
+      formId,
+    };
+  });
 
-    await db.transaction(async (tx) => {
-        // Iterate over original formQuestions to access fieldOptions
-        for (const question of formQuestions) {
-            const [{ questionId }] = await tx.insert(dbQuestions).values({
-                text: question.text,
-                fieldType: question.fieldType,
-                formId,
-            }).returning({ questionId: dbQuestions.id });
+  await db.transaction(async (tx) => {
+    for (const question of newQuestions) {
+      const [{ questionId }] = await tx
+        .insert(dbQuestions)
+        .values(question)
+        .returning({ questionId: dbQuestions.id });
+      if (question.fieldOptions && question.fieldOptions.length > 0) {
+        await tx.insert(fieldOptions).values(
+          question.fieldOptions.map((option) => ({
+            text: option.text,
+            value: option.value,
+            questionId,
+          }))
+        );
+      }
+    }
+  });
 
-            // Check if this question has fieldOptions
-            if (question.fieldOptions && question.fieldOptions.length > 0) {
-                // Create array of options to insert
-                const optionsToInsert = question.fieldOptions.map((option: any) => ({
-                    text: option.text,
-                    value: option.value,
-                    questionId,
-                }));
-                
-                // Insert all options for this question
-                await tx.insert(fieldOptions).values(optionsToInsert);
-            }
-        }
-    });
+  return formId;
+}
 
-    return formId;
+export async function publishForm(formId: number) {
+  await db.update(forms).set({ published: true }).where(eq(forms.id, formId));
 }
