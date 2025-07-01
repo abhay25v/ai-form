@@ -109,7 +109,7 @@ export const authenticators = pgTable(
         },
     ]
 );
-// ...existing code...
+
 
 export const forms = pgTable("form", {
     id: serial("id").primaryKey(),
@@ -125,6 +125,7 @@ export const formsRelations = relations(forms, ({ many, one }) => ({
         fields: [forms.userId],
         references: [users.id],
     }),
+    submissions: many(formSubmissions),
 }));
 
 export const questions = pgTable("question", {
@@ -140,6 +141,7 @@ export const questionsRelations = relations(questions, ({ one, many }) => ({
         references: [forms.id],
     }),
     fieldOptions: many(fieldOptions),
+    answers: many(answers),
 }));
 
 export const fieldOptions = pgTable("field_option", {
@@ -154,4 +156,46 @@ export const fieldOptionsRelations = relations(fieldOptions, ({ one }) => ({
         fields: [fieldOptions.questionId],
         references: [questions.id],
     }),
+}));
+
+export const answers = pgTable("answer", {
+    id: serial("id").primaryKey(),
+    value: text("value"),
+    questionId: integer("questionId"), // changed from "question_id" to "questionId"
+    formSubmissionId: integer("formSubmissionId"), // changed from "form_submission_id" to "formSubmissionId"
+    fieldOptionsId: integer("fieldOptionsId"), // changed from "field_options_id" to "fieldOptionsId"
+});
+
+export const answersRelations = relations(answers, ({ one }) => ({
+    question: one(questions, {
+        fields: [answers.questionId],
+        references: [questions.id],
+    }),
+    formSubmission: one(formSubmissions, {
+        fields: [answers.formSubmissionId],
+        references: [formSubmissions.id],
+    }),
+    fieldOptions: one(fieldOptions, {
+        fields: [answers.fieldOptionsId],
+        references: [fieldOptions.id],
+    }),
+}));
+
+export const formSubmissions = pgTable("form_submission", {
+    id: serial("id").primaryKey(),
+    formId: integer("formId"), // changed from "form_id" to "formId"
+    userId: text("userId"), // changed from "user_Id" to "userId"
+    submittedAt: timestamp("submittedAt", { mode: "date" }).notNull().defaultNow(),
+});
+
+export const formSubmissionsRelations = relations(formSubmissions, ({ one, many }) => ({
+    form: one(forms, {
+        fields: [formSubmissions.formId],
+        references: [forms.id],
+    }),
+    user: one(users, {
+        fields: [formSubmissions.userId],
+        references: [users.id],
+    }),
+    answers: many(answers),
 }));

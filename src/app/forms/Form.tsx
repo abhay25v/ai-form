@@ -8,6 +8,7 @@ import FormField from './FormField';
 import { publishForm } from '../actions/mutateForm';
 import FormPublishSuccess from './FormPublishSuccess';
 import { useRouter } from 'next/navigation';
+import { submitAnswers, type Answer } from '../actions/submitAnswers';
 
 type Props = {
   form: Form,
@@ -34,17 +35,25 @@ const Form = (props: Props) => {
 
   const onSubmit = async (data: any) => {
     console.log(data);
+    
     if (editMode) {
-      await publishForm(props.form.id);
-      setSuccessDialogOpen(true);
+      try {
+        await publishForm(props.form.id);
+        setSuccessDialogOpen(true);
+      } catch (error) {
+        console.error('Error publishing form:', error);
+        alert('Error publishing form. Please try again later.');
+      }
     } else {
-      let answers = [];
+      // Fixed: Use Answer[] (array of Answer objects) instead of Answer
+      let answers: Answer[] = [];
+      
       for (const [questionId, value] of Object.entries(data)) {
         const id = parseInt(questionId.replace('question_', ''));
         let fieldOptionsId = null;
         let textValue = null;
 
-        if (typeof value == "string" && value.includes('answerId_')) {
+        if (typeof value === "string" && value.includes('answerId_')) {
           fieldOptionsId = parseInt(value.replace('answerId_', ''));
         } else {
           textValue = value as string;
@@ -54,27 +63,20 @@ const Form = (props: Props) => {
           questionId: id,
           fieldOptionsId,
           value: textValue
-        })
+        });
       }
 
-      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-
-      const response = await fetch(`${baseUrl}/api/form/new`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ formId: props.form.id, answers })
-      });
-      if (response.status === 200) {
-        router.push(`/forms/${props.form.id}/success`);
-      } else {
-        console.error('Error submitting form');
-        alert('Error submitting form. Please try again later');
+      try {
+        const response = await submitAnswers({ formId: props.form.id, answers });
+        if (response) {
+          router.push('/forms/success');
+        }
+      } catch (error) {
+        console.error('Error processing form data:', error);
+        alert('There was an error processing your form. Please try again later.');
       }
     }
   }
-
 
   return (
     <div className='text-center'>
