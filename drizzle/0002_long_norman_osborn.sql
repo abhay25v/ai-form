@@ -1,0 +1,1 @@
+ALTER TABLE "form" RENAME COLUMN "user_id" TO "userId";

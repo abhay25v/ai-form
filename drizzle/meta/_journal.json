@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1751527570298,
+      "tag": "0000_breezy_payback",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1751529158461,
+      "tag": "0001_white_peter_parker",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1751529620904,
+      "tag": "0002_long_norman_osborn",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1751529972021,
+      "tag": "0003_daffy_apocalypse",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1751533958541,
+      "tag": "0004_outstanding_marvel_boy",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1751534328558,
+      "tag": "0005_slippery_anita_blake",
+      "breakpoints": true
+    }
+  ]
+}
