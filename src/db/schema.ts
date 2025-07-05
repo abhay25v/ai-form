@@ -22,7 +22,7 @@ export const formElements = pgEnum("field_type", [
     "Switch",
 ])
 
-const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle"
+const connectionString = process.env.DATABASE_URL || "postgres://postgres:postgres@localhost:5432/drizzle"
 const pool = postgres(connectionString, { max: 1 })
 
 export const db = drizzle(pool)
@@ -35,6 +35,7 @@ export const users = pgTable("user", {
     email: text("email").unique(),
     emailVerified: timestamp("emailVerified", { mode: "date" }),
     image: text("image"),
+    password: text("password"),
 })
 
 

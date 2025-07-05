@@ -63,3 +63,68 @@ export async function saveForm(data: SaveFormData) {
 export async function publishForm(formId: number) {
   await db.update(forms).set({ published: true }).where(eq(forms.id, formId));
 }
+
+export async function updateForm(formId: number, data: SaveFormData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    throw new Error("Not authenticated");
+  }
+
+  // First, verify the user owns this form
+  const existingForm = await db.query.forms.findFirst({
+    where: eq(forms.id, formId),
+  });
+
+  if (!existingForm || existingForm.userId !== userId) {
+    throw new Error("Not authorized to update this form");
+  }
+
+  await db.transaction(async (tx) => {
+    // Update form details
+    await tx
+      .update(forms)
+      .set({
+        name: data.name,
+        description: data.description,
+      })
+      .where(eq(forms.id, formId));
+
+    // Delete existing questions and options
+    const existingQuestions = await tx
+      .select({ id: dbQuestions.id })
+      .from(dbQuestions)
+      .where(eq(dbQuestions.formId, formId));
+    
+    for (const question of existingQuestions) {
+      await tx.delete(fieldOptions).where(eq(fieldOptions.questionId, question.id));
+    }
+    
+    await tx.delete(dbQuestions).where(eq(dbQuestions.formId, formId));
+
+    // Insert new questions and options
+    for (const question of data.questions) {
+      const [{ questionId }] = await tx
+        .insert(dbQuestions)
+        .values({
+          text: question.text,
+          fieldType: question.fieldType,
+          formId,
+        })
+        .returning({ questionId: dbQuestions.id });
+
+      if (question.fieldOptions && question.fieldOptions.length > 0) {
+        await tx.insert(fieldOptions).values(
+          question.fieldOptions.map((option) => ({
+            text: option.text,
+            value: option.value,
+            questionId,
+          }))
+        );
+      }
+    }
+  });
+
+  return formId;
+}

@@ -43,6 +43,13 @@
       "when": 1751534328558,
       "tag": "0005_slippery_anita_blake",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1751702678129,
+      "tag": "0006_cynical_wallop",
+      "breakpoints": true
     }
   ]
 }

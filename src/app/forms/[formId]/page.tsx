@@ -14,18 +14,35 @@ const page = async ({ params }: {
   const { formId } = await params;
 
   if (!formId) {
-    return <div>Form not found</div>
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Form Not Found</h1>
+          <p className="text-gray-600">The form you're looking for doesn't exist.</p>
+        </div>
+      </div>
+    )
   }
 
   // Parse and validate the formId
   const parsedFormId = parseInt(formId, 10);
   
   if (isNaN(parsedFormId)) {
-    return <div>Invalid form ID</div>
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Invalid Form ID</h1>
+          <p className="text-gray-600">The form ID provided is not valid.</p>
+        </div>
+      </div>
+    )
   }
 
+  const session = await auth();
+  const userId = session?.user?.id;
+
   const form = await db.query.forms.findFirst({
-    where: eq(forms.id, parsedFormId), // Use the validated parsedFormId
+    where: eq(forms.id, parsedFormId),
     with: {
       questions: {
         with: {
@@ -36,11 +53,38 @@ const page = async ({ params }: {
   })
 
   if (!form) {
-    return <div>Form not found</div>
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Form Not Found</h1>
+          <p className="text-gray-600">The form you're looking for doesn't exist.</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Check if user can access this form
+  const canAccess = form.published || form.userId === userId;
+
+  if (!canAccess) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Form Not Available</h1>
+          <p className="text-gray-600">
+            This form is not published yet. Only the form creator can view it.
+          </p>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <Form form={form} />
+    <div className="min-h-screen bg-gray-50">
+      <div className="max-w-4xl mx-auto py-8">
+        <Form form={form} />
+      </div>
+    </div>
   )
 }
 
