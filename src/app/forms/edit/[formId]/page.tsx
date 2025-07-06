@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Edit3, Eye, Settings } from 'lucide-react'
 import Link from 'next/link'
+import Header from '@/components/ui/header'
 
 type Props = {}
 
@@ -86,7 +87,9 @@ const page = async ({params}:{
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <>
+            <Header />
+            <div className="min-h-screen bg-gray-50">
             {/* Header */}
             <div className="bg-white shadow-sm border-b">
                 <div className="max-w-7xl mx-auto px-4 py-4">
@@ -123,7 +126,8 @@ const page = async ({params}:{
             <div className="max-w-7xl mx-auto px-4 py-8">
                 <EditableForm form={form} />
             </div>
-        </div>
+            </div>
+        </>
     )
 }
 

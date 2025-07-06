@@ -13,13 +13,13 @@ const LandingPage = (props: Props) => {
   return (
     <PlausibleProvider domain={process.env.PLAUSIBLE_DOMAIN || ""}>
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center space-y-8 pt-8 sm:pt-24 pb-16 w-full bg-gradient-to-br from-blue-50 via-white to-purple-50 bg-[url('/grid.svg')] bg-opacity-50" id="hero">
+      <section className="flex flex-col items-center justify-center space-y-8 pt-8 sm:pt-24 pb-16 w-full bg-gradient-to-br from-emerald-50 via-white to-teal-50 bg-[url('/grid.svg')] bg-opacity-50" id="hero">
         <div className="text-center space-y-6 max-w-4xl mx-auto px-4">
-          <div className="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium mb-4">
+          <div className="inline-flex items-center px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full text-sm font-medium mb-4">
             <Zap className="w-4 h-4 mr-2" />
             AI-Powered Form Builder
           </div>
-          <h1 className='text-4xl font-bold text-center tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl leading-tight bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent'>
+          <h1 className='text-4xl font-bold text-center tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl leading-tight bg-gradient-to-r from-gray-900 via-emerald-900 to-teal-900 bg-clip-text text-transparent'>
             Create your forms <br />in seconds not hours
           </h1>
           <p className='max-w-[600px] mx-auto text-lg text-center text-gray-600 md:text-xl leading-relaxed'>
@@ -27,7 +27,7 @@ const LandingPage = (props: Props) => {
           </p>
         </div>
         
-        <div className="w-full max-w-2xl px-4">
+        <div className="w-full text-center max-w-2xl px-4">
           <FormGenerator />
         </div>
 
@@ -35,7 +35,7 @@ const LandingPage = (props: Props) => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto px-4 mt-12">
           <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
             <CardContent className="p-6 text-center">
-              <Clock className="w-8 h-8 text-blue-600 mx-auto mb-3" />
+              <Clock className="w-8 h-8 text-emerald-600 mx-auto mb-3" />
               <h3 className="font-semibold text-gray-900 mb-2">Lightning Fast</h3>
               <p className="text-sm text-gray-600">Create forms in seconds with AI assistance</p>
             </CardContent>
@@ -43,7 +43,7 @@ const LandingPage = (props: Props) => {
           
           <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
             <CardContent className="p-6 text-center">
-              <BarChart3 className="w-8 h-8 text-purple-600 mx-auto mb-3" />
+              <BarChart3 className="w-8 h-8 text-teal-600 mx-auto mb-3" />
               <h3 className="font-semibold text-gray-900 mb-2">Rich Analytics</h3>
               <p className="text-sm text-gray-600">Get detailed insights and analytics</p>
             </CardContent>
@@ -51,7 +51,7 @@ const LandingPage = (props: Props) => {
           
           <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
             <CardContent className="p-6 text-center">
-              <Share2 className="w-8 h-8 text-green-600 mx-auto mb-3" />
+              <Share2 className="w-8 h-8 text-orange-600 mx-auto mb-3" />
               <h3 className="font-semibold text-gray-900 mb-2">Easy Sharing</h3>
               <p className="text-sm text-gray-600">Share and collect responses instantly</p>
             </CardContent>
@@ -83,7 +83,7 @@ const LandingPage = (props: Props) => {
                     alt="create a form"
                     className='w-full h-auto rounded-lg shadow-md'
                   />
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-emerald-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
                     1
                   </div>
                 </div>
@@ -96,7 +96,7 @@ const LandingPage = (props: Props) => {
                 </div>
                 
                 <div className="flex justify-center">
-                  <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+                  <div className="w-16 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"></div>
                 </div>
               </div>
             </CardContent>
@@ -113,7 +113,7 @@ const LandingPage = (props: Props) => {
                     alt="generate the form"
                     className='w-full h-auto rounded-lg shadow-md'
                   />
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-teal-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
                     2
                   </div>
                 </div>
@@ -126,7 +126,7 @@ const LandingPage = (props: Props) => {
                 </div>
                 
                 <div className="flex justify-center">
-                  <div className="w-16 h-1 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"></div>
+                  <div className="w-16 h-1 bg-gradient-to-r from-teal-500 to-orange-500 rounded-full"></div>
                 </div>
               </div>
             </CardContent>
@@ -143,7 +143,7 @@ const LandingPage = (props: Props) => {
                     alt="check analytics"
                     className='w-full h-auto rounded-lg shadow-md'
                   />
-                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                  <div className="absolute -top-2 -right-2 w-8 h-8 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
                     3
                   </div>
                 </div>
@@ -156,7 +156,7 @@ const LandingPage = (props: Props) => {
                 </div>
                 
                 <div className="flex justify-center">
-                  <div className="w-16 h-1 bg-gradient-to-r from-green-500 to-blue-500 rounded-full"></div>
+                  <div className="w-16 h-1 bg-gradient-to-r from-orange-500 to-emerald-500 rounded-full"></div>
                 </div>
               </div>
             </CardContent>
@@ -169,12 +169,12 @@ const LandingPage = (props: Props) => {
           <p className="text-gray-600">Join thousands of users who create amazing forms with AI</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/auth/signup">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 text-lg font-semibold shadow-lg">
-                Get Started Free
+              <Button size="lg" className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-8 py-3 text-lg font-semibold shadow-lg">
+                Get Started
               </Button>
             </Link>
             <Link href="/auth/signin">
-              <Button size="lg" variant="outline" className="px-8 py-3 text-lg font-semibold">
+              <Button size="lg" variant="outline" className="px-8 py-3 text-lg font-semibold hover:bg-emerald-50 hover:border-emerald-200">
                 Sign In
               </Button>
             </Link>

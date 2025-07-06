@@ -4,6 +4,7 @@ import { forms } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import { auth } from '@/auth';
 import Form from '../Form';
+import Header from '@/components/ui/header';
 
 const page = async ({ params }: {
   params: Promise<{
@@ -80,11 +81,14 @@ const page = async ({ params }: {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto py-8">
-        <Form form={form} />
+    <>
+      <Header />
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-stone-50">
+        <div className="max-w-5xl mx-auto py-12 px-4">
+          <Form form={form} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

@@ -77,31 +77,67 @@ const Form = (props: Props) => {
 
 
   return (
-    <div className='text-center'>
-      <h1 className='text-lg font-bold py-3'>{props.form.name}</h1>
-      <h3 className='text-md'>{props.form.description}</h3>
-      <FormComponent {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className='grid w-full max-w-3xl items-center gap-6 my-4 text-left'>
-          {props.form.questions.map((question: QuestionWithOptionsModel, index: number) => {
-            return (
-              <ShadcdnFormField
-                control={form.control}
-                name={`question_${question.id}`}
-                key={`${question.text}_${index}`}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className='text-base mt-3'>{index + 1}.{" "}{question.text}</FormLabel>
-                    <FormControl>
-                      <FormField element={question} key={index} value={field.value} onChange={field.onChange} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            )
-          })}
-          <Button type='submit'>{editMode ? "Publish" : "Submit"}</Button>
-        </form>
-      </FormComponent>
+    <div className='max-w-4xl mx-auto px-6'>
+      <div className="bg-white rounded-2xl shadow-lg border-0 overflow-hidden">
+        {/* Form Header */}
+        <div className="bg-gradient-to-r from-emerald-600 to-teal-600 px-8 py-8 text-white">
+          <h1 className='text-3xl font-bold mb-3'>{props.form.name}</h1>
+          <p className='text-emerald-100 text-lg leading-relaxed'>{props.form.description}</p>
+        </div>
+        
+        {/* Form Content */}
+        <div className="px-8 py-8">
+          <FormComponent {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
+              {props.form.questions.map((question: QuestionWithOptionsModel, index: number) => {
+                return (
+                  <ShadcdnFormField
+                    control={form.control}
+                    name={`question_${question.id}`}
+                    key={`${question.text}_${index}`}
+                    render={({ field }) => (
+                      <FormItem className="space-y-4">
+                        <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                          <FormLabel className='text-lg font-semibold text-gray-900 mb-4 block'>
+                            <span className="inline-flex items-center justify-center w-8 h-8 bg-emerald-600 text-white rounded-full text-sm font-bold mr-3">
+                              {index + 1}
+                            </span>
+                            {question.text}
+                          </FormLabel>
+                          <FormControl>
+                            <FormField element={question} key={index} value={field.value} onChange={field.onChange} />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                )
+              })}
+              
+              {/* Submit Button */}
+              <div className="pt-6 border-t border-gray-200">
+                <Button 
+                  type='submit' 
+                  size="lg" 
+                  className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  {editMode ? (
+                    <div className="flex items-center gap-2">
+                      <span>🚀</span>
+                      Publish Form
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <span>📝</span>
+                      Submit Response
+                    </div>
+                  )}
+                </Button>
+              </div>
+            </form>
+          </FormComponent>
+        </div>
+      </div>
       <FormPublishSuccess formId={props.form.id} open={successDialogOpen} onOpenChange={handleDialogChange} />
     </div>
   )

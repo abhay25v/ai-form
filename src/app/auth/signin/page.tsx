@@ -54,24 +54,24 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-slate-50 to-teal-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+          <h2 className="mt-6 text-3xl font-extrabold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
             Sign in to your account
           </h2>
           <p className="mt-2 text-sm text-gray-600">
             Or{' '}
-            <Link href="/auth/signup" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link href="/auth/signup" className="font-medium text-emerald-600 hover:text-emerald-500 transition-colors">
               create a new account
             </Link>
           </p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Welcome back</CardTitle>
-            <CardDescription>
+        <Card className="border-0 shadow-lg bg-white/80 backdrop-blur-sm">
+          <CardHeader className="bg-gradient-to-r from-emerald-50 to-teal-50 border-b">
+            <CardTitle className="text-emerald-900">Welcome back</CardTitle>
+            <CardDescription className="text-emerald-700">
               Enter your credentials to access your account
             </CardDescription>
           </CardHeader>
@@ -109,7 +109,7 @@ export default function SignIn() {
 
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700"
                 disabled={loading}
               >
                 {loading ? (
@@ -137,7 +137,7 @@ export default function SignIn() {
             <Button
               type="button"
               variant="outline"
-              className="w-full"
+              className="w-full hover:bg-emerald-50 hover:border-emerald-200"
               onClick={handleGoogleSignIn}
               disabled={loading}
             >
@@ -169,7 +169,7 @@ export default function SignIn() {
         </Card>
 
         <div className="text-center">
-          <Link href="/" className="text-sm text-gray-600 hover:text-gray-900">
+          <Link href="/" className="text-sm text-gray-600 hover:text-emerald-600 transition-colors">
             Back to home
           </Link>
         </div>
