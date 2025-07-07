@@ -7,7 +7,7 @@ import EditableForm from '../../EditableForm'
 import Form from '../../Form'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Edit3, Eye, Settings } from 'lucide-react'
+import { ArrowLeft, Edit3, Eye, Settings, BarChart3 } from 'lucide-react'
 import Link from 'next/link'
 import Header from '@/components/ui/header'
 
@@ -90,13 +90,13 @@ const page = async ({params}:{
         <>
             <Header />
             <div className="min-h-screen bg-gray-50">
-            {/* Header */}
+            {/* Sub Header */}
             <div className="bg-white shadow-sm border-b">
-                <div className="max-w-7xl mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
+                <div className="w-full px-4 py-4">
+                    <div className="flex items-center justify-between max-w-7xl mx-auto">
                         <div className="flex items-center space-x-4">
                             <Link href="/dashboard">
-                                <Button variant="ghost" size="sm">
+                                <Button variant="ghost" size="sm" className="hover:bg-gray-100">
                                     <ArrowLeft className="h-4 w-4 mr-2" />
                                     Back to Dashboard
                                 </Button>
@@ -104,17 +104,23 @@ const page = async ({params}:{
                             <div className="h-6 w-px bg-gray-300"></div>
                             <div>
                                 <h1 className="text-xl font-semibold text-gray-900 flex items-center">
-                                    <Edit3 className="h-5 w-5 mr-2" />
+                                    <Edit3 className="h-5 w-5 mr-2 text-emerald-600" />
                                     Edit Form
                                 </h1>
-                                <p className="text-sm text-gray-600">Make changes to your form</p>
+                                <p className="text-sm text-gray-600">Configure your form fields and settings</p>
                             </div>
                         </div>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-3">
                             <Link href={`/forms/${formId}`}>
-                                <Button variant="outline" size="sm">
+                                <Button variant="outline" size="sm" className="hover:bg-emerald-50 hover:border-emerald-200 hover:text-emerald-700">
                                     <Eye className="h-4 w-4 mr-2" />
-                                    Preview
+                                    Preview Form
+                                </Button>
+                            </Link>
+                            <Link href={`/forms/results/${formId}`}>
+                                <Button variant="outline" size="sm" className="hover:bg-teal-50 hover:border-teal-200 hover:text-teal-700">
+                                    <BarChart3 className="h-4 w-4 mr-2" />
+                                    View Results
                                 </Button>
                             </Link>
                         </div>
@@ -123,7 +129,7 @@ const page = async ({params}:{
             </div>
 
             {/* Main Content */}
-            <div className="max-w-7xl mx-auto px-4 py-8">
+            <div className="w-full px-4 py-8">
                 <EditableForm form={form} />
             </div>
             </div>

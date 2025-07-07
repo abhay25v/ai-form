@@ -92,9 +92,9 @@ const ResultsPage = async ({ params }: {
     <>
       <Header />
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-stone-50">
-        <div className="max-w-7xl mx-auto py-8 px-4">
+        <div className="w-full px-4 py-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-8 max-w-7xl mx-auto">
           <div className="flex items-center gap-4 mb-4">
             <Link href="/dashboard">
               <Button variant="outline" size="sm">
@@ -108,7 +108,7 @@ const ResultsPage = async ({ params }: {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-7xl mx-auto">
           <Card className="border-0 shadow-lg bg-gradient-to-br from-emerald-50 to-emerald-100">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-emerald-700">Total Responses</CardTitle>
@@ -166,6 +166,7 @@ const ResultsPage = async ({ params }: {
         </div>
 
         {/* Results Content */}
+        <div className="max-w-7xl mx-auto">
         {totalSubmissions > 0 ? (
           <Card className="border-0 shadow-lg">
             <CardHeader className="bg-gradient-to-r from-emerald-50 to-teal-50 border-b">
@@ -271,6 +272,7 @@ const ResultsPage = async ({ params }: {
             </CardContent>
           </Card>
         )}
+        </div>
         </div>
       </div>
     </>

@@ -28,8 +28,8 @@ const Header = async (props: Props) => {
     const session = await auth();
     // console.log(session);
     return (
-        <header className="border-b border-gray-200 bg-white/80 backdrop-blur-sm shadow-sm">
-            <nav className='flex flex-wrap items-center justify-between mx-auto max-w-screen-xl p-4'>
+        <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
+            <nav className='flex flex-wrap items-center justify-between mx-auto max-w-screen-xl px-4 py-4'>
                 <div>
                     <Link href="/" className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent hover:from-emerald-700 hover:to-teal-700 transition-all">
                         AI Form Builder

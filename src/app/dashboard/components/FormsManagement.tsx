@@ -20,7 +20,7 @@ const FormsManagement = ({ forms }: Props) => {
             <div className="p-2 bg-emerald-100 rounded-lg">
               <Plus className="h-5 w-5 text-emerald-600" />
             </div>
-            <span className="text-xl font-semibold text-gray-900">Create New Form</span>
+            <span className="text-xl font-semibold text-gray-900">Form Builder</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -31,8 +31,8 @@ const FormsManagement = ({ forms }: Props) => {
       {/* Your Forms Section */}
       <div>
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-2 bg-orange-100 rounded-lg">
-            <FileText className="h-5 w-5 text-orange-600" />
+          <div className="p-2 bg-slate-100 rounded-lg">
+            <FileText className="h-5 w-5 text-slate-600" />
           </div>
           <h2 className="text-2xl font-bold text-gray-900">Your Forms</h2>
           <div className="flex-1 h-px bg-gradient-to-r from-gray-200 to-transparent"></div>
@@ -54,7 +54,7 @@ const FormsManagement = ({ forms }: Props) => {
                 No forms yet
               </h3>
               <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                Get started by creating your first form above. Our AI will help you build it in seconds!
+                Get started by creating your first form above. Our AI-powered platform will help you build professional forms efficiently.
               </p>
             </CardContent>
           </Card>

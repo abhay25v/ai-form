@@ -6,9 +6,9 @@ type Props = {
 
 const FormEditLayout = ({ children }: Props) => {
     return (
-        <main className='flex min-h-screen flex-col items-center justify-between'>
+        <div className='min-h-screen flex flex-col'>
             {children}
-        </main>
+        </div>
     )
 }
 

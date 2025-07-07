@@ -28,20 +28,21 @@ const Dashboard = async ({ searchParams }: {
     <>
       <Header />
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-stone-50">
-        <div className="w-full max-w-7xl mx-auto px-4 py-8">
+        <div className="w-full px-4 py-8">
         {/* Welcome Section */}
-        <div className="mb-10">
+        <div className="mb-10 max-w-7xl mx-auto">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border-0 shadow-sm">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-900 via-emerald-800 to-teal-800 bg-clip-text text-transparent mb-3">
-              Welcome back, {session?.user?.name}! 👋
+              Welcome back, {session?.user?.name}!
             </h1>
             <p className="text-lg text-gray-600">
-              Create, manage, and analyze your forms with powerful insights
+              Create, manage, and analyze your forms with comprehensive business intelligence
             </p>
           </div>
         </div>
 
         {/* Dashboard Tabs */}
+        <div className="max-w-7xl mx-auto">
         <Tabs defaultValue="overview" className="w-full">
           <TabsList className="grid w-full grid-cols-4 bg-white/80 backdrop-blur-sm border-0 shadow-sm p-1">
             <TabsTrigger value="overview" className="flex items-center gap-2 data-[state=active]:bg-emerald-500 data-[state=active]:text-white transition-all">
@@ -82,7 +83,8 @@ const Dashboard = async ({ searchParams }: {
         </TabsContent>
       </Tabs>
       </div>
-    </div>
+        </div>
+      </div>
     </>
   )
 }

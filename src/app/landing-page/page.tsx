@@ -20,10 +20,10 @@ const LandingPage = (props: Props) => {
             AI-Powered Form Builder
           </div>
           <h1 className='text-4xl font-bold text-center tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl leading-tight bg-gradient-to-r from-gray-900 via-emerald-900 to-teal-900 bg-clip-text text-transparent'>
-            Create your forms <br />in seconds not hours
+            Create professional forms <br />with intelligent automation
           </h1>
           <p className='max-w-[600px] mx-auto text-lg text-center text-gray-600 md:text-xl leading-relaxed'>
-            Generate, publish and share your form right away with AI. Dive into insightful results, charts and analytics.
+            Build, publish, and analyze professional forms with AI-powered automation. Streamline data collection with intelligent insights and comprehensive analytics.
           </p>
         </div>
         
@@ -36,24 +36,24 @@ const LandingPage = (props: Props) => {
           <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
             <CardContent className="p-6 text-center">
               <Clock className="w-8 h-8 text-emerald-600 mx-auto mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-2">Lightning Fast</h3>
-              <p className="text-sm text-gray-600">Create forms in seconds with AI assistance</p>
+              <h3 className="font-semibold text-gray-900 mb-2">Rapid Development</h3>
+              <p className="text-sm text-gray-600">Accelerate form creation with intelligent automation</p>
             </CardContent>
           </Card>
           
           <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
             <CardContent className="p-6 text-center">
               <BarChart3 className="w-8 h-8 text-teal-600 mx-auto mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-2">Rich Analytics</h3>
-              <p className="text-sm text-gray-600">Get detailed insights and analytics</p>
+              <h3 className="font-semibold text-gray-900 mb-2">Advanced Analytics</h3>
+              <p className="text-sm text-gray-600">Comprehensive insights and data visualization</p>
             </CardContent>
           </Card>
           
           <Card className="border-none shadow-lg bg-white/80 backdrop-blur-sm">
             <CardContent className="p-6 text-center">
               <Share2 className="w-8 h-8 text-orange-600 mx-auto mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-2">Easy Sharing</h3>
-              <p className="text-sm text-gray-600">Share and collect responses instantly</p>
+              <h3 className="font-semibold text-gray-900 mb-2">Seamless Distribution</h3>
+              <p className="text-sm text-gray-600">Efficient sharing and response collection</p>
             </CardContent>
           </Card>
         </div>
@@ -67,7 +67,7 @@ const LandingPage = (props: Props) => {
             How It Works
           </h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Create professional forms in just three simple steps with our AI-powered platform
+            Build professional forms efficiently with our enterprise-grade AI platform
           </p>
         </div>
         
@@ -89,9 +89,9 @@ const LandingPage = (props: Props) => {
                 </div>
                 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-gray-900">Describe Your Form</h3>
+                  <h3 className="text-xl font-semibold text-gray-900">Define Requirements</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Simply describe what kind of form you need and our AI will understand your requirements
+                    Specify your form requirements, target audience, and data collection objectives
                   </p>
                 </div>
                 
@@ -119,9 +119,9 @@ const LandingPage = (props: Props) => {
                 </div>
                 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-gray-900">AI Generates Your Form</h3>
+                  <h3 className="text-xl font-semibold text-gray-900">AI-Powered Generation</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Watch as our AI instantly creates a professional form with all the right fields and styling
+                    Advanced AI algorithms create optimized forms with intelligent field types and validation
                   </p>
                 </div>
                 
@@ -149,9 +149,9 @@ const LandingPage = (props: Props) => {
                 </div>
                 
                 <div className="space-y-3">
-                  <h3 className="text-xl font-semibold text-gray-900">Analyze & Share</h3>
+                  <h3 className="text-xl font-semibold text-gray-900">Deploy & Analyze</h3>
                   <p className="text-gray-600 leading-relaxed">
-                    Share your form and get detailed analytics on responses, completion rates, and more
+                    Distribute your forms and leverage comprehensive analytics for data-driven insights
                   </p>
                 </div>
                 
@@ -165,8 +165,8 @@ const LandingPage = (props: Props) => {
 
         {/* CTA Section */}
         <div className="text-center space-y-6 bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto">
-          <h3 className="text-2xl font-bold text-gray-900">Ready to get started?</h3>
-          <p className="text-gray-600">Join thousands of users who create amazing forms with AI</p>
+          <h3 className="text-2xl font-bold text-gray-900">Ready to streamline your data collection?</h3>
+          <p className="text-gray-600">Join enterprise teams who trust our platform for professional form management</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/auth/signup">
               <Button size="lg" className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white px-8 py-3 text-lg font-semibold shadow-lg">
