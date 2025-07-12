@@ -88,7 +88,7 @@ const page = async ({params}:{
 
     return (
         <>
-            <Header />
+            <Header session={session} />
             <div className="min-h-screen bg-gray-50">
             {/* Sub Header */}
             <div className="bg-white shadow-sm border-b">

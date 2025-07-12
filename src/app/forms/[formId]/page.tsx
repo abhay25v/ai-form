@@ -84,7 +84,7 @@ const page = async ({ params }: {
 
   return (
     <>
-      <Header />
+      <Header session={session}/>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-stone-50">
         {/* Breadcrumb Navigation */}
         <div className="bg-white border-b">

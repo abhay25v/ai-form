@@ -1,37 +1,23 @@
-import React from 'react'
-import { auth, signIn, signOut } from "@/auth"
+'use client';
+import React, {useRef} from 'react'
 import { Button } from './button'
 import Image from 'next/image'
 import Link from 'next/link'
-import { sign } from 'crypto'
 
+type Props = {
+    session: any;
+    onSignOut?: () => void;
+};
 
+export const navbarLogoId = "navbar-logo";
 
-type Props = {}
-
-function SignOut() {
-    return (
-        <form action={
-            async () => {
-                'use server';
-                await signOut()
-            }
-        }>
-            <Button type="submit" variant="outline" size="sm" className="hover:bg-red-50 hover:border-red-200 hover:text-red-600">
-                Sign Out
-            </Button>
-        </form>
-    )
-}
-
-const Header = async (props: Props) => {
-    const session = await auth();
-    // console.log(session);
+function Header({ session, onSignOut }: Props) {
     return (
         <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
             <nav className='flex flex-wrap items-center justify-between mx-auto max-w-screen-xl px-4 py-4'>
                 <div>
-                    <Link href="/" className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent hover:from-emerald-700 hover:to-teal-700 transition-all">
+                    <Link href="/" className="flex items-center gap-3 text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent hover:from-emerald-700 hover:to-teal-700 transition-all">
+                        <img id={navbarLogoId} src="/fav.png" alt="Logo" className="h-8 w-auto inline-block" />
                         AI Form Builder
                     </Link>
                 </div>
@@ -49,19 +35,23 @@ const Header = async (props: Props) => {
                             <div className='flex items-center gap-3'>
                                 {session.user.name && session.user.image && (
                                     <div className="flex items-center gap-2">
-                                        <Image 
-                                            src={session.user.image} 
-                                            alt={session.user.name} 
-                                            width={32} 
-                                            height={32} 
-                                            className='rounded-full border-2 border-emerald-200' 
+                                        <Image
+                                            src={session.user.image}
+                                            alt={session.user.name}
+                                            width={32}
+                                            height={32}
+                                            className='rounded-full border-2 border-emerald-200'
                                         />
                                         <span className="text-sm font-medium text-gray-700 hidden sm:block">
                                             {session.user.name}
                                         </span>
                                     </div>
                                 )}
-                                <SignOut />
+                                <form action="/api/auth/signout" method="post">
+                                    <Button type="submit" variant="outline" size="sm" className="hover:bg-red-50 hover:border-red-200 hover:text-red-600">
+                                        Sign Out
+                                    </Button>
+                                </form>
                             </div>
                         </div>
                     ) : (
@@ -83,4 +73,4 @@ const Header = async (props: Props) => {
         </header>
     )
 }
-export default Header
+export default Header;

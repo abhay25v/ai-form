@@ -1,14 +1,17 @@
-import React from 'react'
+import { auth } from '@/auth'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { CheckCircle, Home, FileText } from 'lucide-react'
 import Link from 'next/link'
 import Header from '@/components/ui/header'
+import React from 'react'
 
-const page = () => {
+export default async function SuccessPage() {
+  const session = await auth();
+
   return (
     <>
-      <Header />
+      <Header session={session} />
       <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50 flex items-center justify-center px-4">
         <Card className="w-full max-w-2xl border-0 shadow-xl">
           <CardContent className="p-12 text-center">
@@ -21,7 +24,6 @@ const page = () => {
                 Thank you for taking the time to complete our form. Your response has been recorded securely and will be reviewed by our team.
               </p>
             </div>
-            
             <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-6 mb-8">
               <div className="flex items-center justify-center gap-3 text-emerald-700">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -30,7 +32,6 @@ const page = () => {
                 <span className="font-medium">Your information is secure and confidential</span>
               </div>
             </div>
-            
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/">
                 <Button variant="outline" className="hover:bg-emerald-50 hover:border-emerald-200">
@@ -51,5 +52,3 @@ const page = () => {
     </>
   )
 }
-
-export default page

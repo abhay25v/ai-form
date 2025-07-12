@@ -26,7 +26,7 @@ const Dashboard = async ({ searchParams }: {
 
   return (
     <>
-      <Header />
+      <Header session={session}/>
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-slate-50 to-stone-50">
         <div className="w-full px-4 py-8">
         {/* Welcome Section */}
