@@ -12,10 +12,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Header from '@/components/ui/header'
 
 const Dashboard = async ({ searchParams }: {
-  searchParams?: {
+  searchParams?: Promise<{
     [key: string]: string | string[] | undefined
-  }
+  }>
 }) => {
+  const resolvedSearchParams = searchParams ? await searchParams : {};
   const session = await auth()
   
   if (!session?.user) {
@@ -74,7 +75,7 @@ const Dashboard = async ({ searchParams }: {
         <TabsContent value="results" className="space-y-6 mt-6">
           <ResultsAnalytics 
             forms={forms} 
-            selectedFormId={searchParams?.formId ? parseInt(searchParams.formId as string) : undefined}
+            selectedFormId={resolvedSearchParams.formId ? parseInt(resolvedSearchParams.formId as string) : undefined}
           />
         </TabsContent>
 
