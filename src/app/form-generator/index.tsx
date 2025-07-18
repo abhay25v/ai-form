@@ -53,15 +53,44 @@ function FormGenerator(props: Props) {
     const [isCreatingManual, setIsCreatingManual] = useState(false);
     const session = useSession();
     const router = useRouter();
-    console.log(session);
+
+    // Timer states for AI generation
+    const [timer, setTimer] = useState(99);
+    const [showLongWait, setShowLongWait] = useState(false);
+    const [aiPending, setAiPending] = useState(false);
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout | undefined;
+        if (aiPending) {
+            setTimer(99);
+            setShowLongWait(false);
+            interval = setInterval(() => {
+                setTimer((prev) => {
+                    if (prev > 0) return prev - 1;
+                    else {
+                        setShowLongWait(true);
+                        return 0;
+                    }
+                });
+            }, 1000);
+        }
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [aiPending]);
 
     useEffect(() => {
         if (state.message === "success") {
+            setAiPending(false);
+            setShowLongWait(false);
+            setTimer(99);
             setOpen(false);
             redirect(`/forms/edit/${state.data.formId}`); // Redirect to the form edit page with the new form ID
+        } else if (state.message) {
+            setAiPending(false);
+            setShowLongWait(false);
+            setTimer(99);
         }
-        console.log(state);
-
     }, [state.message]);
 
     const onFormCreate = () => {
@@ -115,7 +144,7 @@ function FormGenerator(props: Props) {
                     </DialogHeader>
                     
                     {/* AI Creation Option */}
-                    <form action={formAction}>
+                    <form action={formAction} onSubmit={() => setAiPending(true)}>
                         <div className='grid gap-6 py-4'>
                             <div className="p-6 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-lg border border-emerald-200">
                                 <div className="flex items-start gap-4">
@@ -147,6 +176,20 @@ function FormGenerator(props: Props) {
                                 </div>
                             </div>
                         </div>
+                        {/* Timer and status */}
+                        {aiPending && (
+                            <div className="flex flex-col items-center py-4">
+                                {!showLongWait ? (
+                                    <div className="text-emerald-700 font-medium">
+                                        Generating your form... <span className="font-mono">{timer}s</span>
+                                    </div>
+                                ) : (
+                                    <div className="text-orange-600 font-medium">
+                                        Taking a little longer than usual... Please wait.
+                                    </div>
+                                )}
+                            </div>
+                        )}
                         <div className="flex justify-between items-center pt-4">
                             <Button variant="outline" type="button" onClick={() => setOpen(false)} className="border-gray-300 hover:bg-gray-50">
                                 Cancel

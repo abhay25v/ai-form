@@ -32,7 +32,31 @@ export async function generateForm(
   const data = parsedData.data;
   const promptExplanation =
     "Based on the description, generate a survey object with 3 fields: name(string) for the form, description(string) of the form and a questions array where every element has 2 fields: text and the fieldType and fieldType can be of these options RadioGroup, Select, Input, Textarea, Switch; and return it in json format. For RadioGroup, and Select types also return fieldOptions array with text and value fields. For example, for RadioGroup, and Select types, the field options array can be [{text: 'Yes', value: 'yes'}, {text: 'No', value: 'no'}] and for Input, Textarea, and Switch types, the field options array can be empty. For example, for Input, Textarea, and Switch types, the field options array can be []";
+  //     const promptExplanation = `
+  // Based on the following description, generate a JSON object for a survey form with this structure:
 
+  // {
+  //   "name": string,
+  //   "description": string,
+  //   "questions": [
+  //     {
+  //       "text": string,
+  //       "fieldType": "RadioGroup" | "Select" | "Input" | "Textarea" | "Switch",
+  //       "fieldOptions": [
+  //         { "text": string, "value": string }
+  //       ]
+  //     }
+  //   ]
+  // }
+
+  // Rules:
+  // - Only use the fieldType values listed above.
+  // - For "RadioGroup" and "Select", provide at least two fieldOptions.
+  // - For "Input", "Textarea", and "Switch", fieldOptions must be an empty array.
+  // - Return only valid JSON, no explanations or extra text.
+
+  // Description: ${data.description}
+  // `;
   try {
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       headers: {

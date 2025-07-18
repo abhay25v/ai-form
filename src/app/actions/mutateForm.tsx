@@ -29,7 +29,6 @@ export async function saveForm(data: SaveFormData) {
     .returning({ insertedId: forms.id });
   const formId = newForm[0].insertedId;
 
-  // TODO: add questions and options
   const newQuestions = data.questions.map((question) => {
     return {
       text: question.text,
