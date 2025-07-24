@@ -11,11 +11,11 @@ import AdvancedAnalytics from './components/AdvancedAnalytics'
 import Header from '@/components/ui/header'
 
 const Dashboard = async ({ searchParams }: {
-  searchParams?: Promise<{
+  searchParams?: {
     [key: string]: string | string[] | undefined
-  }>
+  }
 }) => {
-  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const resolvedSearchParams = searchParams || {};
   const session = await auth()
   
   if (!session?.user) {

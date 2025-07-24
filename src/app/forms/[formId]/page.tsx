@@ -9,12 +9,12 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
 const page = async ({ params }: {
-  params: Promise<{
+  params: {
     formId: string
-  }>
+  }
 }) => {
   // Await params before accessing its properties
-  const { formId } = await params;
+  const { formId } = params;
 
   if (!formId) {
     return (
