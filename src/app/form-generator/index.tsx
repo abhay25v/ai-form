@@ -17,11 +17,11 @@ import { useRouter } from 'next/navigation';
 
 import { useSession, signIn } from "next-auth/react"
 
-type Props = {}
+type Props = object
 
 const initialState: {
     message: string;
-    data?: any;
+    data?: { formId?: string | number } | undefined;
 } = {
     message: "",
 }
@@ -29,9 +29,9 @@ const initialState: {
 export function SubmitButton() {
     const { pending } = useFormStatus();
     return (
-        <Button 
-            type="submit" 
-            disabled={pending} 
+        <Button
+            type="submit"
+            disabled={pending}
             className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-medium px-8 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 disabled:opacity-50"
         >
             {pending ? (
@@ -46,7 +46,7 @@ export function SubmitButton() {
     );
 }
 
-function FormGenerator(props: Props) {
+function FormGenerator() {
     const [state, formAction] = useActionState(generateForm, initialState)
     const [open, setOpen] = useState(false);
     const [isCreatingManual, setIsCreatingManual] = useState(false);
@@ -84,13 +84,13 @@ function FormGenerator(props: Props) {
             setShowLongWait(false);
             setTimer(99);
             setOpen(false);
-            redirect(`/forms/edit/${state.data.formId}`); // Redirect to the form edit page with the new form ID
+            redirect(`/forms/edit/${state.data?.formId}`); // Redirect to the form edit page with the new form ID
         } else if (state.message) {
             setAiPending(false);
             setShowLongWait(false);
             setTimer(99);
         }
-    }, [state.message]);
+    }, [state.message, state.data?.formId]);
 
     const onFormCreate = () => {
         if (session.data?.user) {
@@ -105,7 +105,7 @@ function FormGenerator(props: Props) {
             signIn();
             return;
         }
-        
+
         setIsCreatingManual(true);
         try {
             const result = await createManualForm();
@@ -141,7 +141,7 @@ function FormGenerator(props: Props) {
                         </DialogTitle>
                         <p className="text-gray-600 mt-2">Choose your preferred creation method</p>
                     </DialogHeader>
-                    
+
                     {/* AI Creation Option */}
                     <form action={formAction} onSubmit={() => setAiPending(true)}>
                         <div className='grid gap-6 py-4'>
@@ -196,7 +196,7 @@ function FormGenerator(props: Props) {
                             <SubmitButton />
                         </div>
                     </form>
-                    
+
                     {/* Manual Creation Option */}
                     <div className="border-t pt-6 mt-6">
                         <div className="p-6 bg-gradient-to-r from-slate-50 to-gray-50 rounded-lg border border-slate-200">
@@ -213,8 +213,8 @@ function FormGenerator(props: Props) {
                                     <p className="text-sm text-slate-700 mb-4">
                                         Build your form from scratch with complete control over structure, field types, and validation rules.
                                     </p>
-                                    <Button 
-                                        type="button" 
+                                    <Button
+                                        type="button"
                                         onClick={onCreateManually}
                                         disabled={isCreatingManual}
                                         className="w-full bg-slate-600 hover:bg-slate-700 text-white font-medium"

@@ -89,7 +89,7 @@ export default function SignUp() {
     setLoading(true);
     try {
       await signIn('google', { callbackUrl: '/dashboard' });
-    } catch (error) {
+    } catch {
       setError('An error occurred with Google sign in');
       setLoading(false);
     }

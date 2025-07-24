@@ -7,7 +7,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import { Zap, BarChart3, Share2, Clock } from 'lucide-react'
 import Link from 'next/link'
 
-type Props = object
 
 const LandingPage = () => {
   return (
