@@ -17,8 +17,6 @@ import { useRouter } from 'next/navigation';
 
 import { useSession, signIn } from "next-auth/react"
 
-type Props = object
-
 const initialState: {
     message: string;
     data?: { formId?: string | number } | undefined;
