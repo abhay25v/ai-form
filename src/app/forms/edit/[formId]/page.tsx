@@ -51,7 +51,7 @@ const page = async ({ params }: { params: { formId: string } }) => {
                     <CardContent className="pt-6">
                         <div className="text-center">
                             <h2 className="text-lg font-semibold text-gray-900 mb-2">Form not found</h2>
-                            <p className="text-gray-600 mb-4">The form you're looking for doesn't exist.</p>
+                            <p className="text-gray-600 mb-4">The form you&apos;re looking for doesn&apos;t exist.</p>
                             <Link href="/dashboard">
                                 <Button>Return to Dashboard</Button>
                             </Link>

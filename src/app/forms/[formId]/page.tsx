@@ -21,7 +21,7 @@ const page = async ({ params }: {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Form Not Found</h1>
-          <p className="text-gray-600">The form you're looking for doesn't exist.</p>
+          <p className="text-gray-600">The form you&apos;re looking for doesn&apos;t exist.</p>
         </div>
       </div>
     )
@@ -60,7 +60,7 @@ const page = async ({ params }: {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Form Not Found</h1>
-          <p className="text-gray-600">The form you're looking for doesn't exist.</p>
+          <p className="text-gray-600">The form you&apos;re looking for doesn&apos;t exist.</p>
         </div>
       </div>
     )

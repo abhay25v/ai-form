@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Trash2, Plus, GripVertical, Save, X } from 'lucide-react';
+import { Trash2, Plus, Save } from 'lucide-react';
 import { updateForm } from '../actions/mutateForm';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';

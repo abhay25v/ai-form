@@ -71,7 +71,7 @@ export default function SignUp() {
       } else {
         setError(data.message || 'Failed to create account');
       }
-    } catch (error) {
+    } catch  {
       setError('An error occurred. Please try again.');
     } finally {
       setLoading(false);

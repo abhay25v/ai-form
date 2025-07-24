@@ -32,7 +32,7 @@ interface TableProps {
   columns: Question[]
 }
 
-const columnHelper = createColumnHelper<any>()
+const columnHelper = createColumnHelper<FormSubmission>()
 
 export function Table(props: TableProps) {
   const { data } = props
@@ -41,9 +41,9 @@ export function Table(props: TableProps) {
       cell: info => info.getValue(),
       header: () => 'ID',
     }),
-    ...props.columns.map((question: any, index: number) => {
-      return columnHelper.accessor((row) => {
-        let answer = row.answers.find((answer: any) => {
+    ...props.columns.map((question: Question) => {
+      return columnHelper.accessor((row: FormSubmission) => {
+        const answer = row.answers.find((answer: Answer) => {
           return answer.questionId === question.id;
         });
 

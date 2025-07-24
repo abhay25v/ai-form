@@ -32,13 +32,13 @@ const Form = (props: Props) => {
     setSuccessDialogOpen(open);
   }
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: Record<string, string>) => {
     console.log(data);
     if (editMode) {
       await publishForm(props.form.id);
       setSuccessDialogOpen(true);
     } else {
-      let answers = [];
+      const answers = [];
       for (const [questionId, value] of Object.entries(data)) {
         const id = parseInt(questionId.replace('question_', ''));
         let fieldOptionsId = null;
@@ -112,7 +112,7 @@ const Form = (props: Props) => {
             )}
           </div>
         </div>
-        
+
         {/* Form Content */}
         <div className="px-8 py-10">
           <div className="max-w-4xl mx-auto">
@@ -135,11 +135,11 @@ const Form = (props: Props) => {
                                 <span className="flex-1">{question.text}</span>
                                 {question.fieldType !== 'Switch' && (
                                   <span className="text-sm font-normal text-gray-500 bg-white px-3 py-1 rounded-full">
-                                    {question.fieldType === 'Input' ? 'Text' : 
-                                     question.fieldType === 'Textarea' ? 'Long Text' :
-                                     question.fieldType === 'Select' ? 'Dropdown' :
-                                     question.fieldType === 'RadioGroup' ? 'Multiple Choice' :
-                                     question.fieldType}
+                                    {question.fieldType === 'Input' ? 'Text' :
+                                      question.fieldType === 'Textarea' ? 'Long Text' :
+                                        question.fieldType === 'Select' ? 'Dropdown' :
+                                          question.fieldType === 'RadioGroup' ? 'Multiple Choice' :
+                                            question.fieldType}
                                   </span>
                                 )}
                               </div>
@@ -155,13 +155,13 @@ const Form = (props: Props) => {
                     />
                   )
                 })}
-                
+
                 {/* Submit Button */}
                 <div className="pt-8 border-t border-gray-200">
                   <div className="text-center">
-                    <Button 
-                      type='submit' 
-                      size="lg" 
+                    <Button
+                      type='submit'
+                      size="lg"
                       className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-4 px-12 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                     >
                       {editMode ? (

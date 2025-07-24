@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
-import { BarChart3, TrendingUp, FileText } from 'lucide-react'
+import { BarChart3, FileText } from 'lucide-react'
 import { InferSelectModel } from 'drizzle-orm'
 import { forms } from '@/db/schema'
 import FormsPicker from './FormsPicker'

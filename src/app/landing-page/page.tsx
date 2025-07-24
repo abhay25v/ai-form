@@ -4,12 +4,12 @@ import FormGenerator from '../form-generator'
 import PlausibleProvider from 'next-plausible'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { CheckCircle, Zap, BarChart3, Share2, Clock, Users } from 'lucide-react'
+import { Zap, BarChart3, Share2, Clock } from 'lucide-react'
 import Link from 'next/link'
 
-type Props = {}
+type Props = object
 
-const LandingPage = (props: Props) => {
+const LandingPage = () => {
   return (
     <PlausibleProvider domain={process.env.PLAUSIBLE_DOMAIN || ""}>
       {/* Hero Section */}

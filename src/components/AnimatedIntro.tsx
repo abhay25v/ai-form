@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { navbarLogoId } from "@/components/ui/header"; // import the id
+import Image from "next/image";
 
 const TYPING_TEXT = "AI Form Builder";
 
@@ -72,16 +73,19 @@ export default function AnimatedIntro({ onFinish }: { onFinish: () => void }) {
               step === "shrink" && target
                 ? { x: target.x, y: target.y, scale: 0.4 }
                 : step === "slide"
-                ? { x: -120 }
-                : { x: 0, y: 0, scale: 1 }
+                  ? { x: -120 }
+                  : { x: 0, y: 0, scale: 1 }
             }
             transition={{ type: "spring", stiffness: 80, damping: 18 }}
           >
-            <img
+            <Image
               src="/fav.png"
               alt="Logo"
+              width={112} // or the actual width in pixels
+              height={112} // or the actual height in pixels
               className="h-20 w-20 md:h-28 md:w-28 drop-shadow-xl"
               style={{ filter: "drop-shadow(0 4px 16px rgba(16,185,129,0.15))" }}
+              priority
             />
             <motion.span
               className="ml-4 text-3xl md:text-5xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent"

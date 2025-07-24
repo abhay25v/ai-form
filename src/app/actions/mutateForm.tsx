@@ -14,7 +14,7 @@ interface SaveFormData extends Form {
 }
 
 export async function saveForm(data: SaveFormData) {
-  const { name, description, questions } = data;
+  const { name, description } = data;
   const session = await auth();
   const userId = session?.user?.id;
 

@@ -6,8 +6,9 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Plus, BarChart3 } from 'lucide-react';
 import AnimatedIntro from "@/components/AnimatedIntro";
+import type { Session } from "next-auth";
 
-export default function ClientHome({ session }: { session: any }) {
+export default function ClientHome({ session }: { session: Session | null }) {
   const [showIntro, setShowIntro] = useState(false);
 
   useEffect(() => {

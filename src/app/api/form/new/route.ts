@@ -1,6 +1,5 @@
 import { db } from "@/db";
 import {
-  forms,
   formSubmissions,
   answers as dbAnswers,
 } from "@/db/schema";
@@ -23,7 +22,7 @@ export async function POST(
 
   await db.transaction(async (tx) => {
     for (const answer of data.answers) {
-      const [{ answerId }] = await tx
+      await tx
         .insert(dbAnswers)
         .values({
           formSubmissionId: insertedId,

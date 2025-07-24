@@ -6,6 +6,7 @@ import { db } from './db/index';
 import bcrypt from 'bcryptjs';
 import { users } from './db/schema';
 import { eq } from 'drizzle-orm';
+import type { JWT } from "next-auth/jwt";
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db),
@@ -58,7 +59,7 @@ export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
     async session({ session, user, token }: {
       session: Session;
       user?: User;
-      token?: any;
+      token?: JWT;
     }) {
       if (token?.sub && session.user) {
         session.user.id = token.sub;

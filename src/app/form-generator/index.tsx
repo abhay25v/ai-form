@@ -6,17 +6,16 @@ import {
     DialogContent,
     DialogHeader,
     DialogTitle,
-    DialogFooter,
 } from '@/components/ui/dialog'
 import { Button } from "@/components/ui/button";
 import { Textarea } from '@/components/ui/textarea';
 import { generateForm } from '../actions/generateForm';
 import { createManualForm } from '../actions/createManualForm';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
-import { useSession, signIn, signOut } from "next-auth/react"
+import { useSession, signIn } from "next-auth/react"
 
 type Props = {}
 

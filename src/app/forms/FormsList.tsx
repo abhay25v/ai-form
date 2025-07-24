@@ -4,7 +4,6 @@ import { InferSelectModel } from "drizzle-orm";
 
 import {
     Card,
-    CardContent,
     CardHeader,
     CardTitle,
     CardDescription,
@@ -12,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { Edit, Share2, Eye, BarChart3, Trash2 } from "lucide-react";
+import { Edit, Eye, BarChart3 } from "lucide-react";
 import ShareFormButton from "./ShareFormButton";
 import DeleteFormButton from "./DeleteFormButton";
 

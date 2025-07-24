@@ -1,23 +1,31 @@
 'use client';
-import React, {useRef} from 'react'
+import React from 'react'
 import { Button } from './button'
 import Image from 'next/image'
 import Link from 'next/link'
+import type { Session } from "next-auth";
 
 type Props = {
-    session: any;
-    onSignOut?: () => void;
+    session: Session | null;
 };
 
 export const navbarLogoId = "navbar-logo";
 
-function Header({ session, onSignOut }: Props) {
+function Header({ session }: Props) {
     return (
         <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm shadow-sm">
             <nav className='flex flex-wrap items-center justify-between mx-auto max-w-screen-xl px-4 py-4'>
                 <div>
                     <Link href="/" className="flex items-center gap-3 text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent hover:from-emerald-700 hover:to-teal-700 transition-all">
-                        <img id={navbarLogoId} src="/fav.png" alt="Logo" className="h-8 w-auto inline-block" />
+                        <Image
+                            id={navbarLogoId}
+                            src="/fav.png"
+                            alt="Logo"
+                            width={32}
+                            height={32}
+                            className="h-8 w-auto inline-block"
+                            priority
+                        />
                         AI Form Builder
                     </Link>
                 </div>

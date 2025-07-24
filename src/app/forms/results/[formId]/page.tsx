@@ -9,11 +9,10 @@ import Link from 'next/link';
 import { ArrowLeft, BarChart3, Users, FileText } from 'lucide-react';
 import Header from '@/components/ui/header';
 import ResultsExportButtons from '@/components/ResultsExportButtons';
+import type { Form } from '@/types/form';
 
-const ResultsPage = async ({ params }: {
-  params: Promise<{ formId: string }>
-}) => {
-  const { formId } = await params;
+const ResultsPage = async ({ params }: { params: { formId: string } }) => {
+  const { formId } = params;
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -67,7 +66,7 @@ const ResultsPage = async ({ params }: {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Form Not Found</h1>
-          <p className="text-gray-600">The form you're looking for doesn't exist.</p>
+          <p className="text-gray-600">The form you&apos;re looking for doesn&apos;t exist.</p>
         </div>
       </div>
     )
@@ -238,7 +237,7 @@ const ResultsPage = async ({ params }: {
                   <div className="bg-gray-50 px-6 py-4 border-t">
                     <div className="flex items-center justify-between text-sm text-gray-600">
                       <span>Total Responses: <span className="font-semibold text-gray-900">{totalSubmissions}</span></span>
-                      <ResultsExportButtons form={form} />
+                      <ResultsExportButtons form={form as Form} />
                     </div>
                   </div>
                 </CardContent>

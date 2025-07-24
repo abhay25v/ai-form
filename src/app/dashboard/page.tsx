@@ -8,7 +8,6 @@ import DashboardOverview from './components/DashboardOverview'
 import FormsManagement from './components/FormsManagement'
 import ResultsAnalytics from './components/ResultsAnalytics'
 import AdvancedAnalytics from './components/AdvancedAnalytics'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import Header from '@/components/ui/header'
 
 const Dashboard = async ({ searchParams }: {

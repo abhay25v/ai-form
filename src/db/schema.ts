@@ -11,7 +11,6 @@ import {
 import postgres from "postgres"
 import { drizzle } from "drizzle-orm/postgres-js"
 import type { AdapterAccountType } from "next-auth/adapters"
-import { desc } from "drizzle-orm"
 import { relations } from "drizzle-orm"
 
 export const formElements = pgEnum("field_type", [

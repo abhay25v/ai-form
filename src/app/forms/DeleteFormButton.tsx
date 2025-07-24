@@ -52,7 +52,7 @@ const DeleteFormButton = ({ formId, formName }: Props) => {
         <DialogHeader>
           <DialogTitle>Delete Form</DialogTitle>
           <DialogDescription>
-            Are you sure you want to delete "{formName}"? This action cannot be undone.
+            Are you sure you want to delete &quot;{formName}&quot;? This action cannot be undone.
             All responses and data associated with this form will be permanently deleted.
           </DialogDescription>
         </DialogHeader>
