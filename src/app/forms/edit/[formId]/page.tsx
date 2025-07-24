@@ -11,7 +11,7 @@ import Link from 'next/link'
 import Header from '@/components/ui/header'
 
 const page = async ({ params }: { params: { formId: string } }) => {
-    const {formId} = await params;
+    const {formId} = params;
     const session = await auth();
     const userId = session?.user?.id;
 
