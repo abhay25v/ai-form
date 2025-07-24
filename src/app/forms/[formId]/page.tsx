@@ -8,12 +8,14 @@ import Header from '@/components/ui/header';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
-const page = async ({ params }: {
+// Define the shape of the props object
+type FormIdPageProps = {
   params: {
     formId: string
   }
-}) => {
-  // Await params before accessing its properties
+}
+
+const page = async ({ params }: FormIdPageProps) => {
   const { formId } = params;
 
   if (!formId) {
@@ -29,7 +31,7 @@ const page = async ({ params }: {
 
   // Parse and validate the formId
   const parsedFormId = parseInt(formId, 10);
-  
+
   if (isNaN(parsedFormId)) {
     return (
       <div className="flex items-center justify-center min-h-screen">

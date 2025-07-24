@@ -10,19 +10,22 @@ import ResultsAnalytics from './components/ResultsAnalytics'
 import AdvancedAnalytics from './components/AdvancedAnalytics'
 import Header from '@/components/ui/header'
 
-const Dashboard = async ({ searchParams }: {
+// Define the shape of the props object
+type DashboardPageProps = {
   searchParams?: {
     [key: string]: string | string[] | undefined
   }
-}) => {
-  const resolvedSearchParams = searchParams || {};
+}
+
+const Dashboard = async ({ searchParams }: DashboardPageProps) => {
   const session = await auth()
-  
+
   if (!session?.user) {
     redirect('/auth/signin')
   }
-  
+
   const forms = await getUserForms()
+  const resolvedSearchParams = searchParams || {};
 
   return (
     <>
@@ -72,8 +75,8 @@ const Dashboard = async ({ searchParams }: {
         </TabsContent>
 
         <TabsContent value="results" className="space-y-6 mt-6">
-          <ResultsAnalytics 
-            forms={forms} 
+          <ResultsAnalytics
+            forms={forms}
             selectedFormId={resolvedSearchParams.formId ? parseInt(resolvedSearchParams.formId as string) : undefined}
           />
         </TabsContent>
