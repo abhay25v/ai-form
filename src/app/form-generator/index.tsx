@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react'
-import React, { useActionState } from 'react'
+import { useFormState, useFormStatus } from 'react-dom'
 import {
     Dialog,
     DialogContent,
@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from '@/components/ui/textarea';
 import { generateForm } from '../actions/generateForm';
 import { createManualForm } from '../actions/createManualForm';
-import { useFormStatus } from 'react-dom';
 import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
@@ -45,7 +44,7 @@ export function SubmitButton() {
 }
 
 function FormGenerator() {
-    const [state, formAction] = useActionState(generateForm, initialState)
+    const [state, formAction] = useFormState(generateForm, initialState)
     const [open, setOpen] = useState(false);
     const [isCreatingManual, setIsCreatingManual] = useState(false);
     const session = useSession();
