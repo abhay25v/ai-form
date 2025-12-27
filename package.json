@@ -30,7 +30,7 @@
     "geist": "^1.4.2",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.522.0",
-    "next": "14.2.1",
+    "next": "14.2.35",
     "next-auth": "^5.0.0-beta.29",
     "next-plausible": "^3.12.4",
     "postgres": "^3.4.7",
