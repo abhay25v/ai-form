@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { forms, questions as dbQuestions, fieldOptions } from "@/db/schema";
 import { auth } from "@/auth";
 import { InferInsertModel, eq } from "drizzle-orm";
+import { hasGuestTrialForm, isFormOwnedByCurrentVisitor, markGuestTrialFormCreated } from "@/lib/guestFormTrial";
 
 type Form = InferInsertModel<typeof forms>;
 type Question = InferInsertModel<typeof dbQuestions>;
@@ -18,16 +19,24 @@ export async function saveForm(data: SaveFormData) {
   const session = await auth();
   const userId = session?.user?.id;
 
+  if (!userId && hasGuestTrialForm()) {
+    throw new Error("GUEST_TRIAL_LIMIT_REACHED");
+  }
+
   const newForm = await db
     .insert(forms)
     .values({
       name,
       description,
-      userId,
+      userId: userId ?? null,
       published: false,
     })
     .returning({ insertedId: forms.id });
   const formId = newForm[0].insertedId;
+
+  if (!userId) {
+    markGuestTrialFormCreated(formId);
+  }
 
   const newQuestions = data.questions.map((question) => {
     return {
@@ -60,7 +69,27 @@ export async function saveForm(data: SaveFormData) {
 }
 
 export async function publishForm(formId: number) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, error: "AUTH_REQUIRED" as const };
+  }
+
+  const existingForm = await db.query.forms.findFirst({
+    where: eq(forms.id, formId),
+  });
+
+  if (!existingForm || !isFormOwnedByCurrentVisitor({
+    formId,
+    formUserId: existingForm.userId,
+    currentUserId: userId,
+  })) {
+    return { success: false, error: "UNAUTHORIZED" as const };
+  }
+
   await db.update(forms).set({ published: true }).where(eq(forms.id, formId));
+  return { success: true };
 }
 
 export async function updateForm(formId: number, data: SaveFormData) {

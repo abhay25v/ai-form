@@ -9,6 +9,11 @@ import { eq } from 'drizzle-orm';
 import type { JWT } from "next-auth/jwt";
 
 export const { handlers: { GET, POST }, auth, signIn, signOut } = NextAuth({
+  secret: process.env.AUTH_SECRET,
+  // Fixes Auth.js v5 "UntrustedHost" during local development.
+  // In production, prefer setting AUTH_URL correctly and keeping trustHost false.
+  trustHost:
+    process.env.AUTH_TRUST_HOST === "true" || process.env.NODE_ENV !== "production",
   adapter: DrizzleAdapter(db),
   providers: [
     GoogleProvider({

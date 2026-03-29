@@ -9,9 +9,17 @@ import { Button } from '@/components/ui/button'
 import { ArrowLeft, Edit3, Eye, BarChart3 } from 'lucide-react'
 import Link from 'next/link'
 import Header from '@/components/ui/header'
+import { isFormOwnedByCurrentVisitor } from '@/lib/guestFormTrial'
 
-const page = async ({ params }: { params: { formId: string } }) => {
+const page = async ({
+    params,
+    searchParams,
+}: {
+    params: { formId: string },
+    searchParams?: { [key: string]: string | string[] | undefined },
+}) => {
     const {formId} = params;
+    const shouldShowGuestAuthPrompt = searchParams?.guestPrompt === "1";
     const session = await auth();
     const userId = session?.user?.id;
 
@@ -62,7 +70,13 @@ const page = async ({ params }: { params: { formId: string } }) => {
         );
     }
 
-    if (form.userId !== userId) {
+    const canEditForm = isFormOwnedByCurrentVisitor({
+        formId: form.id,
+        formUserId: form.userId,
+        currentUserId: userId,
+    });
+
+    if (!canEditForm) {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <Card className="max-w-md w-full">
@@ -128,7 +142,7 @@ const page = async ({ params }: { params: { formId: string } }) => {
                         <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
                             <h2 className="text-xl font-semibold text-gray-900 mb-4">Form Builder</h2>
                             <hr className="mb-6" />
-                            <EditableForm form={form} />
+                            <EditableForm form={form} showAuthPrompt={shouldShowGuestAuthPrompt} />
                         </div>
                     </div>
                 </div>

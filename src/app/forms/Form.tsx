@@ -11,7 +11,8 @@ import { useRouter } from 'next/navigation';
 
 type Props = {
   form: Form,
-  editMode?: boolean
+  editMode?: boolean,
+  allowSubmission?: boolean,
 }
 
 type QuestionWithOptionsModel = QuestionSelectModel & {
@@ -25,7 +26,7 @@ interface Form extends FormSelectModel {
 const Form = (props: Props) => {
   const form = useForm();
   const router = useRouter();
-  const { editMode } = props;
+  const { editMode, allowSubmission = true } = props;
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
 
   const handleDialogChange = (open: boolean) => {
@@ -34,6 +35,10 @@ const Form = (props: Props) => {
 
   const onSubmit = async (data: Record<string, string>) => {
     console.log(data);
+    if (!editMode && !allowSubmission) {
+      return;
+    }
+
     if (editMode) {
       await publishForm(props.form.id);
       setSuccessDialogOpen(true);
@@ -159,30 +164,37 @@ const Form = (props: Props) => {
                 {/* Submit Button */}
                 <div className="pt-8 border-t border-gray-200">
                   <div className="text-center">
-                    <Button
-                      type='submit'
-                      size="lg"
-                      className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-4 px-12 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-                    >
-                      {editMode ? (
-                        <div className="flex items-center gap-3">
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                          </svg>
-                          Publish Form
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-3">
-                          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                          Submit Response
-                        </div>
-                      )}
-                    </Button>
-                    {!editMode && (
+                    {(editMode || allowSubmission) && (
+                      <Button
+                        type='submit'
+                        size="lg"
+                        className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold py-4 px-12 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                      >
+                        {editMode ? (
+                          <div className="flex items-center gap-3">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                            </svg>
+                            Publish Form
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-3">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Submit Response
+                          </div>
+                        )}
+                      </Button>
+                    )}
+                    {!editMode && allowSubmission && (
                       <p className="text-gray-500 text-sm mt-4">
                         Your response will be recorded securely
+                      </p>
+                    )}
+                    {!editMode && !allowSubmission && (
+                      <p className="text-gray-500 text-sm mt-4">
+                        Preview mode only. Submission is disabled for the form owner.
                       </p>
                     )}
                   </div>

@@ -7,6 +7,7 @@ import Form from '../Form';
 import Header from '@/components/ui/header';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { isFormOwnedByCurrentVisitor } from '@/lib/guestFormTrial';
 
 // Define the shape of the props object
 type FormIdPageProps = {
@@ -68,8 +69,16 @@ const page = async ({ params }: FormIdPageProps) => {
     )
   }
 
+  const isOwnerView = isFormOwnedByCurrentVisitor({
+    formId: form.id,
+    formUserId: form.userId,
+    currentUserId: userId,
+  });
+
   // Check if user can access this form
-  const canAccess = form.published || form.userId === userId;
+  const canAccess = form.published || isOwnerView;
+
+  const allowSubmission = !isOwnerView;
 
   if (!canAccess) {
     return (
@@ -99,7 +108,7 @@ const page = async ({ params }: FormIdPageProps) => {
                 <span>/</span>
                 <span className="text-gray-900 font-medium">Form Preview</span>
               </div>
-              {form.userId === userId && (
+              {isOwnerView && (
                 <div className="flex items-center space-x-2">
                   <Link href={`/forms/edit/${form.id}`}>
                     <Button variant="outline" size="sm" className="hover:bg-emerald-50 hover:border-emerald-200">
@@ -124,7 +133,7 @@ const page = async ({ params }: FormIdPageProps) => {
         </div>
         
         <div className="w-full max-w-7xl mx-auto py-8 px-4">
-          <Form form={form} />
+          <Form form={form} allowSubmission={allowSubmission} />
         </div>
       </div>
     </>

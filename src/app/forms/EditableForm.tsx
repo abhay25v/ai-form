@@ -11,9 +11,19 @@ import { Trash2, Plus, Save } from 'lucide-react';
 import { updateForm } from '../actions/mutateForm';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import Link from 'next/link';
+import { useSession } from 'next-auth/react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 
 type Props = {
   form: Form;
+  showAuthPrompt?: boolean;
 }
 
 type QuestionWithOptionsModel = QuestionSelectModel & {
@@ -26,6 +36,8 @@ interface Form extends FormSelectModel {
 
 const EditableForm = (props: Props) => {
   const router = useRouter();
+  const session = useSession();
+  const [authPromptOpen, setAuthPromptOpen] = useState(Boolean(props.showAuthPrompt));
   const [formData, setFormData] = useState({
     name: props.form.name || '',
     description: props.form.description || '',
@@ -142,6 +154,11 @@ const EditableForm = (props: Props) => {
   };
 
   const handleSave = async () => {
+    if (!session.data?.user) {
+      setAuthPromptOpen(true);
+      return;
+    }
+
     setIsLoading(true);
     try {
       await updateForm(props.form.id, formData);
@@ -149,7 +166,13 @@ const EditableForm = (props: Props) => {
       router.push('/dashboard');
     } catch (error) {
       console.error('Error updating form:', error);
-      toast.error('Error updating form. Please try again.');
+
+      if (error instanceof Error && error.message === 'Not authenticated') {
+        setAuthPromptOpen(true);
+        toast.error('Please sign in to save your form.');
+      } else {
+        toast.error('Error updating form. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -165,6 +188,28 @@ const EditableForm = (props: Props) => {
 
   return (
     <div className="w-full">
+      <Dialog open={authPromptOpen} onOpenChange={setAuthPromptOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Save Your Trial Form</DialogTitle>
+            <DialogDescription>
+              Sign in or create an account to save, publish, and manage your forms.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex flex-col gap-3">
+            <Link href={`/auth/signin?callbackUrl=${encodeURIComponent(`/forms/edit/${props.form.id}`)}`}>
+              <Button className="w-full">Sign In to Continue</Button>
+            </Link>
+            <Link href={`/auth/signup?callbackUrl=${encodeURIComponent(`/forms/edit/${props.form.id}`)}`}>
+              <Button variant="outline" className="w-full">Create Account</Button>
+            </Link>
+            <Button variant="ghost" onClick={() => setAuthPromptOpen(false)}>
+              Continue in Guest Mode
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <div className="mb-8">
         <h1 className="text-2xl font-bold mb-4">Edit Form</h1>
         

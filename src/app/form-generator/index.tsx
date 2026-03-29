@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from '@/components/ui/textarea';
 import { generateForm } from '../actions/generateForm';
 import { createManualForm } from '../actions/createManualForm';
-import { redirect } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 
 import { useSession, signIn } from "next-auth/react"
@@ -19,6 +18,7 @@ import { useSession, signIn } from "next-auth/react"
 const initialState: {
     message: string;
     data?: { formId?: string | number } | undefined;
+    requiresAuth?: boolean;
 } = {
     message: "",
 }
@@ -81,36 +81,36 @@ function FormGenerator() {
             setShowLongWait(false);
             setTimer(99);
             setOpen(false);
-            redirect(`/forms/edit/${state.data?.formId}`); // Redirect to the form edit page with the new form ID
+            const guestPromptQuery = session.data?.user ? '' : '?guestPrompt=1';
+            router.push(`/forms/edit/${state.data?.formId}${guestPromptQuery}`);
         } else if (state.message) {
             setAiPending(false);
             setShowLongWait(false);
             setTimer(99);
+
+            if (state.requiresAuth) {
+                signIn(undefined, { callbackUrl: '/form-generator' });
+            }
         }
-    }, [state.message, state.data?.formId]);
+    }, [router, session.data?.user, state.message, state.data?.formId, state.requiresAuth]);
 
     const onFormCreate = () => {
-        if (session.data?.user) {
-            setOpen(true);
-        } else {
-            signIn();
-        }
+        setOpen(true);
     }
 
     const onCreateManually = async () => {
-        if (!session.data?.user) {
-            signIn();
-            return;
-        }
-
         setIsCreatingManual(true);
         try {
             const result = await createManualForm();
             if (result.success) {
                 setOpen(false);
-                router.push(`/forms/edit/${result.formId}`);
+                const guestPromptQuery = session.data?.user ? '' : '?guestPrompt=1';
+                router.push(`/forms/edit/${result.formId}${guestPromptQuery}`);
             } else {
-                alert('Failed to create form. Please try again.');
+                alert(result.error || 'Failed to create form. Please try again.');
+                if (result.requiresAuth) {
+                    signIn(undefined, { callbackUrl: '/form-generator' });
+                }
             }
         } catch (error) {
             console.error('Error creating manual form:', error);
@@ -186,6 +186,11 @@ function FormGenerator() {
                                 )}
                             </div>
                         )}
+                        {state.message && state.message !== "success" && (
+                            <div className="rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+                                {state.message}
+                            </div>
+                        )}
                         <div className="flex justify-between items-center pt-4">
                             <Button variant="outline" type="button" onClick={() => setOpen(false)} className="border-gray-300 hover:bg-gray-50">
                                 Cancel
@@ -210,6 +215,11 @@ function FormGenerator() {
                                     <p className="text-sm text-slate-700 mb-4">
                                         Build your form from scratch with complete control over structure, field types, and validation rules.
                                     </p>
+                                    {!session.data?.user && (
+                                        <p className="text-xs text-slate-600 mb-3">
+                                            Guest mode includes one free trial form. Sign in to create unlimited forms.
+                                        </p>
+                                    )}
                                     <Button
                                         type="button"
                                         onClick={onCreateManually}
