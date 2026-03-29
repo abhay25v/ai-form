@@ -10,16 +10,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Textarea } from '@/components/ui/textarea';
 import { generateForm } from '../actions/generateForm';
+import type { GenerateFormState } from '../actions/generateForm';
 import { createManualForm } from '../actions/createManualForm';
 import { useRouter } from 'next/navigation';
 
 import { useSession, signIn } from "next-auth/react"
 
-const initialState: {
-    message: string;
-    data?: { formId?: string | number } | undefined;
-    requiresAuth?: boolean;
-} = {
+const initialState: GenerateFormState = {
     message: "",
 }
 

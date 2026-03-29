@@ -4,10 +4,16 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { saveForm } from "./mutateForm";
 
+export type GenerateFormState = {
+  message: string;
+  data?: { formId?: number };
+  requiresAuth?: boolean;
+};
+
 export async function generateForm(
-  prevState: { message: string },
+  prevState: GenerateFormState,
   formData: FormData
-) {
+): Promise<GenerateFormState> {
   const schema = z.object({
     description: z.string().min(1, "Description is required"),
   });
